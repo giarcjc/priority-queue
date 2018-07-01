@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 
-
 class Node {
   constructor(val, priority) {
     this.value = val;
@@ -17,17 +16,9 @@ class PriorityQueue {
 
   insert(value, priority) {
     const newNode = new Node(value, priority);
-    console.log('newNode: ');
-    console.log(newNode);
     this.heap.push(newNode);
-
-    console.log('this.heap: ');
-    console.log(this.heap);
-
     let currentNodeIndex = this.heap.length - 1;
     let currentNodeParentIndex = Math.floor(currentNodeIndex / 2);
-    console.log(`currentNodeIndex: ${currentNodeIndex}`);
-    console.log(`currentNodeParentIndex: ${currentNodeParentIndex}`);
 
     while (this.heap[currentNodeParentIndex] &&
       newNode.priority > this.heap[currentNodeParentIndex].priority) {
@@ -37,9 +28,10 @@ class PriorityQueue {
       currentNodeIndex = currentNodeParentIndex;
       currentNodeParentIndex = Math.floor(currentNodeIndex / 2);
     }
-
-
   }
+
+
+
 }
 
 class List extends Component {
@@ -66,23 +58,65 @@ class List extends Component {
   }
 
   render() {
-
     const list = this.state.list.heap.map(a => {
-      return <li key={a.value.id}>Priority: {a.priority} | message: { a.value.message}</li>;
+      const priorityClass = () => {
+        const level = a.priority;
+        switch (level) {
+          case 0:
+          case 1:
+          case 2:
+          case 3:
+          case 4:
+            return 'alert-secondary';
+
+          case 5:
+          case 6:
+          case 7:
+          case 8:
+          case 9:
+            return 'alert-info';
+
+          case 10:
+          case 11:
+          case 12:
+          case 13:
+          case 14:
+            return 'alert-primary';
+
+          case 15:
+          case 16:
+          case 17:
+          case 18:
+          case 19:
+            return 'alert-warning';
+
+          default: return 'alert-danger'
+        }
+
+      }
+
+      const messageClass = `alert ${priorityClass()}`;
+
+      return <li key={a.value.id}>
+        <div className={messageClass}>
+          <span>{ a.value.message}</span>
+        </div>
+        <div>
+          Priority: {a.priority}
+        </div>
+      </li>;
     });
 
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            <input placeholder="message" ref="input"/>
+      <div className="container">
+        <form className="form-inline" onSubmit={this.handleSubmit} >
+          <div className="form-group mb-2">
+              <input className="form-control" ref="input" placeholder="Message"/>
           </div>
-          <div>
-            <label>Priority:
-              <input ref="priority" default="1"/>
-              <input type="submit" value="Add to Queue" />
-            </label>
+          <div className="form-group mx-sm-3 mb-2">
+              <input className="form-control" ref="priority" placeholder="Priority" default="1"/>
           </div>
+          <button className="btn btn-primary mb-2" type="submit">Add to Queue</button>
         </form>
 
         <div>
