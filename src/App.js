@@ -55,6 +55,8 @@ class List extends Component {
     this.setState({
       list: this.state.list
     });
+
+    this.refs.input.value = this.refs.priority.value = '';
   }
 
   render() {
@@ -99,11 +101,9 @@ class List extends Component {
 
       return <li key={a.value.id}>
         <div className={messageClass}>
-          <span>{ a.value.message}</span>
+          <span>{ a.value.message}</span> <span className="priority">Priority: {a.priority}</span>
         </div>
-        <div>
-          Priority: {a.priority}
-        </div>
+
       </li>;
     });
 
