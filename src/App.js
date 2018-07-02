@@ -5,7 +5,6 @@ class Node {
   constructor(val, priority) {
     this.value = val;
     this.priority = priority;
-    this.next = null;
   }
 }
 
